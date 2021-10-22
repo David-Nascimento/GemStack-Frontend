@@ -10,7 +10,6 @@ when "firefox"
 when "chrome"
     @driver = :selenium_chrome
 when "headless"
-
     Capybara.register_driver :selenium_chrome_headless do |app|
         Capybara::Selenium::Driver.load_selenium
         browser_optiosn = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
@@ -18,6 +17,7 @@ when "headless"
             opts.args << "--disable-gpu"
             opts.args << "--no-sandbox"
             opts.args << "--disable-site-isolation-trials"
+            opts.args << "--disable-dev-shm-usage"
         end
         Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_optiosn)
     end
