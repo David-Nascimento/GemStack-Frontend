@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'ruby'
+            image 'papitoio/rubywd:latest'
             args '--network skynet'
         }
     }
