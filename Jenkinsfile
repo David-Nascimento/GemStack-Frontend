@@ -18,12 +18,6 @@ pipeline {
             steps {
                 echo 'Executando tests'
                 sh 'cucumber -p ci'
-                
-            }
-            post {
-                always {
-                    junit 'backend/rspec.xml'
-                }
             }
         }
 
