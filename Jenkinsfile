@@ -11,7 +11,6 @@ pipeline {
             steps{
                 echo "Compilando e/ou baixando dependencias"
                 sh 'bundle install'
-                sh 'apt install chromedriver'
             }
         }
 
