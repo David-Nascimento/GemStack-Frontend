@@ -8,22 +8,23 @@ case browser
 when "firefox"
     @driver = :selenium
 when "chrome"
-    @driver = :chrome_custom
+    @driver = :selenium_chrome
 when "headless"
+
+    Capybara.register_driver :selenium_chrome_headless do |app|
+        Capybara::Selenium::Driver.load_selenium
+        browser_optiosn = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+            opts.args << "--headless"
+            opts.args << "--disable-gpu"
+            opts.args << "--no-sandbox"
+            opts.args << "--disable-site-isolation-trials"
+        end
+        Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_optiosn)
+    end
+
     @driver = :selenium_chrome_headless
 else
-    @driver = :chrome_custom
-end
-
-
-Capybara.register_driver :chrome_custom do |app|
-    caps = Selenium::WebDriver::Remote::Capabilities.chrome(
-      "chromeOptions" => {
-        "args" => ["--headless", "--disable-site-isolation-trials", "--disable-gpu"],
-        "excludeSwitches" => ["enable-logging"],
-      },
-    )
-    Capybara::Selenium::Driver.new(app, :browser => :chrome, :desired_capabilities => caps)
+    @driver = :selenium_chrome
 end
 
 Capybara.configure do |config|
